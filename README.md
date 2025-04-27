@@ -1,92 +1,89 @@
-# :package_description
+# Permission Observer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/curly-deni/permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/permission-observer)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/permission-observer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/permission-observer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/permission-observer)
+
+Permission Observer is a lightweight Laravel package that automatically enforces create, update, and delete permissions at the model level based on your policy methods. It simplifies permission checks and ensures better security across your application.
+
 ---
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
+## Features
+
+- 🛡️ Automatic permission checks for `create`, `update`, and `delete` actions.
+- ⚡ Easy integration with Laravel policies.
+- ⚙️ Configurable behavior — optionally throw custom exceptions.
+- 🧩 Simple trait-based setup for your Eloquent models.
+- 📚 Clean and extendable architecture.
+
 ---
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require curly-deni/permission-observer
 ```
 
-You can publish and run the migrations with:
+You can publish the configuration file using:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+php artisan vendor:publish --tag="permission-observer-config"
 ```
 
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
+This will publish the following configuration:
 
 ```php
 return [
+    'throw_exceptions' => false,
 ];
 ```
 
-Optionally, you can publish the views using
+If `throw_exceptions` is set to `true`, the package will throw specific exceptions when permission is denied:
 
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
+| Action  | Exception Class |
+|---------|-----------------|
+| Create  | `Aesis\PermissionObserver\Exceptions\CreateModelForbidden` |
+| Update  | `Aesis\PermissionObserver\Exceptions\UpdateModelForbidden` |
+| Delete  | `Aesis\PermissionObserver\Exceptions\DeleteModelForbidden` |
+
+---
 
 ## Usage
 
+1. Add the `Aesis\PermissionObserver\Traits\HasPermissionObserver` trait to any Eloquent models you want to protect:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+use Aesis\PermissionObserver\Traits\HasPermissionObserver;
+
+class Post extends Model
+{
+    use HasPermissionObserver;
+}
 ```
 
-## Testing
+2. Define appropriate `create`, `update`, and `delete` methods in your model's corresponding Policy class.
 
-```bash
-composer test
+Example:
+
+```php
+public function update(User $user, Post $post)
+{
+    return $user->id === $post->user_id;
+}
 ```
 
-## Changelog
+That's it! Permission Observer will automatically enforce these rules on model actions.
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+---
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Danila Mikhalev](https://github.com/curly-deni)
 - [All Contributors](../../contributors)
+
+---
 
 ## License
 
