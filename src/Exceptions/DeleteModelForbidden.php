@@ -4,7 +4,4 @@ namespace Aesis\PermissionObserver\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 
-class DeleteModelForbidden extends AuthorizationException
-{
-
-}
+class DeleteModelForbidden extends AuthorizationException {}
