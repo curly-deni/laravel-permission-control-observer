@@ -8,13 +8,12 @@ use Aesis\PermissionObserver\Exceptions\UpdateModelForbidden;
 
 class ActionObserver
 {
-
     protected function check($model, $action, $exception)
     {
         $active = canUserDoActionOnModel($action, $model);
 
         if (! $active && config('permission-observer.throw_exceptions', false)) {
-            throw new $exception();
+            throw new $exception;
         }
 
         return $active;
