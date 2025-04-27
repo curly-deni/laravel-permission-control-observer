@@ -2,17 +2,30 @@
 
 namespace Aesis\PermissionObserver\Observers;
 
-use Illuminate\Support\Facades\Gate;
+use Aesis\PermissionObserver\Exceptions\CreateModelForbidden;
+use Aesis\PermissionObserver\Exceptions\DeleteModelForbidden;
+use Aesis\PermissionObserver\Exceptions\UpdateModelForbidden;
 
 class ActionObserver
 {
+
+    protected function check($model, $action, $exception)
+    {
+        $active = canUserDoActionOnModel($action, $model);
+
+        if (! $active && config('permission-observer.throw_exceptions', false)) {
+            throw new $exception();
+        }
+
+        return $active;
+    }
+
     /**
      * Handle the "creating" event.
      */
     public function creating($model): bool
     {
-        $active = canUserDoActionOnModel('create', $model);
-
+        return $this->check($model, 'create', CreateModelForbidden::class);
     }
 
     /**
@@ -20,7 +33,7 @@ class ActionObserver
      */
     public function updating($model): bool
     {
-        return Gate::forUser(auth()->user())->allows('update', $model);
+        return $this->check($model, 'update', UpdateModelForbidden::class);
     }
 
     /**
@@ -28,6 +41,6 @@ class ActionObserver
      */
     public function deleting($model): bool
     {
-        return Gate::forUser(auth()->user())->allows('delete', $model);
+        return $this->check($model, 'delete', DeleteModelForbidden::class);
     }
 }
