@@ -1,8 +1,8 @@
 # Laravel Permission Observer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/curly-deni/permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/permission-observer)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/laravel-permission-observer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/permission-observer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/permission-observer)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/curly-deni/laravel-permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-observer)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/laravel-permission-observer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/laravel-permission-observer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/laravel-permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-observer)
 
 Permission Observer is a lightweight Laravel package that automatically enforces create, update, and delete permissions at the model level based on your policy methods. It simplifies permission checks and ensures better security across your application.
 
