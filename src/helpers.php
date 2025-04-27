@@ -3,6 +3,9 @@
 if (! function_exists('canUserDoActionOnModel')) {
     function canUserDoActionOnModel($action, $model, $user = null)
     {
+        if (app()->runningInConsole())
+            return true;
+
         if (is_null($user)) {
             $user = auth()->user();
         }
