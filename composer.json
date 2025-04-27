@@ -1,12 +1,17 @@
 {
-    "name": "curly-deni/permission-observer",
-    "description": "This is my package permission-observer",
+    "name": "curly-deni/laravel-permission-observer",
+    "description": "A Laravel package that observes model events and automatically enforces create, update, and delete permissions based on policies.",
     "keywords": [
-        "Danila Mikhalev",
         "laravel",
-        "permissionobserver"
+        "permissions",
+        "authorization",
+        "observer",
+        "policy",
+        "model observer",
+        "security",
+        "eloquent"
     ],
-    "homepage": "https://github.com/curly-deni/permission-observer",
+    "homepage": "https://github.com/curly-deni/laravel-permission-observer",
     "license": "MIT",
     "authors": [
         {
