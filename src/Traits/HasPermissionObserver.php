@@ -8,8 +8,9 @@ trait HasPermissionObserver
 {
     public static function bootHasPermissionObserver()
     {
-        if (app()->runningInConsole())
+        if (app()->runningInConsole()) {
             return;
+        }
 
         static::observe(ActionObserver::class);
     }
