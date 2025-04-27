@@ -1,11 +1,11 @@
 <?php
 
 namespace Aesis\PermissionObserver\Observers;
+
 use Illuminate\Support\Facades\Gate;
 
 class ActionObserver
 {
-
     /**
      * Handle the "creating" event.
      */
@@ -13,9 +13,6 @@ class ActionObserver
     {
         $active = canUserDoActionOnModel('create', $model);
 
-
-
-        return ;
     }
 
     /**
@@ -33,5 +30,4 @@ class ActionObserver
     {
         return Gate::forUser(auth()->user())->allows('delete', $model);
     }
-
 }

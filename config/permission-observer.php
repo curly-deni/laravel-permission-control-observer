@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'throw_exceptions' => false
+    'throw_exceptions' => false,
 ];
