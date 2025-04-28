@@ -1,10 +1,10 @@
-# Laravel Permission Observer
+# Laravel Permission Controller
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/curly-deni/laravel-permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-observer)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/laravel-permission-observer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/laravel-permission-observer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/laravel-permission-observer.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-observer)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/curly-deni/laravel-permission-controller.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-controller)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/laravel-permission-controller/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/laravel-permission-controller/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/laravel-permission-controller.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-controller)
 
-Permission Observer is a lightweight Laravel package that automatically enforces create, update, and delete permissions at the model level based on your policy methods. It simplifies permission checks and ensures better security across your application.
+Permission Controller is a lightweight Laravel package that automatically enforces create, update, and delete permissions at the model level based on your policy methods. It simplifies permission checks and ensures better security across your application.
 
 ---
 
@@ -23,13 +23,13 @@ Permission Observer is a lightweight Laravel package that automatically enforces
 You can install the package via Composer:
 
 ```bash
-composer require curly-deni/laravel-permission-observer
+composer require curly-deni/laravel-permission-controller
 ```
 
 You can publish the configuration file using:
 
 ```bash
-php artisan vendor:publish --tag="permission-observer-config"
+php artisan vendor:publish --tag="permission-controller-config"
 ```
 
 This will publish the following configuration:
@@ -44,18 +44,18 @@ If `throw_exceptions` is set to `true`, the package will throw specific exceptio
 
 | Action  | Exception Class |
 |---------|-----------------|
-| Create  | `Aesis\PermissionObserver\Exceptions\CreateModelForbidden` |
-| Update  | `Aesis\PermissionObserver\Exceptions\UpdateModelForbidden` |
-| Delete  | `Aesis\PermissionObserver\Exceptions\DeleteModelForbidden` |
+| Create  | `Aesis\PermissionController\Exceptions\CreateModelForbidden` |
+| Update  | `Aesis\PermissionController\Exceptions\UpdateModelForbidden` |
+| Delete  | `Aesis\PermissionController\Exceptions\DeleteModelForbidden` |
 
 ---
 
 ## Usage
 
-1. Add the `Aesis\PermissionObserver\Traits\HasPermissionObserver` trait to any Eloquent models you want to protect:
+1. Add the `Aesis\PermissionController\Traits\HasPermissionObserver` trait to any Eloquent models you want to protect:
 
 ```php
-use Aesis\PermissionObserver\Traits\HasPermissionObserver;
+use Aesis\PermissionController\Traits\HasPermissionObserver;
 
 class Post extends Model
 {
@@ -74,7 +74,7 @@ public function update(User $user, Post $post)
 }
 ```
 
-That's it! Permission Observer will automatically enforce these rules on model actions.
+That's it! Permission Controller will automatically enforce these rules on model actions.
 
 ---
 

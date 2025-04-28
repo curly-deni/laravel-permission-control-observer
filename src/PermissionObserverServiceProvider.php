@@ -1,6 +1,6 @@
 <?php
 
-namespace Aesis\PermissionObserver;
+namespace Aesis\PermissionController;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -15,7 +15,7 @@ class PermissionObserverServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('permission-observer')
+            ->name('permission-controller')
             ->hasConfigFile();
     }
 }

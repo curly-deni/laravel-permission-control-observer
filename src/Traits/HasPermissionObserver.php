@@ -1,8 +1,8 @@
 <?php
 
-namespace Aesis\PermissionObserver\Traits;
+namespace Aesis\PermissionController\Traits;
 
-use Aesis\PermissionObserver\Observers\ActionObserver;
+use Aesis\PermissionController\Observers\ActionObserver;
 
 trait HasPermissionObserver
 {

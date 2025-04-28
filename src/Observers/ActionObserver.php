@@ -1,10 +1,10 @@
 <?php
 
-namespace Aesis\PermissionObserver\Observers;
+namespace Aesis\PermissionController\Observers;
 
-use Aesis\PermissionObserver\Exceptions\CreateModelForbidden;
-use Aesis\PermissionObserver\Exceptions\DeleteModelForbidden;
-use Aesis\PermissionObserver\Exceptions\UpdateModelForbidden;
+use Aesis\PermissionController\Exceptions\CreateModelForbidden;
+use Aesis\PermissionController\Exceptions\DeleteModelForbidden;
+use Aesis\PermissionController\Exceptions\UpdateModelForbidden;
 
 class ActionObserver
 {
@@ -12,7 +12,7 @@ class ActionObserver
     {
         $active = canUserDoActionOnModel($action, $model);
 
-        if (! $active && config('permission-observer.throw_exceptions', false)) {
+        if (! $active && config('permission-controller.throw_exceptions', false)) {
             throw new $exception;
         }
 

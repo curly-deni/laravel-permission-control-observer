@@ -1,6 +1,6 @@
 <?php
 
-namespace Aesis\PermissionObserver\Exceptions;
+namespace Aesis\PermissionController\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 

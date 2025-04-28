@@ -1,5 +1,5 @@
 {
-    "name": "curly-deni/laravel-permission-observer",
+    "name": "curly-deni/laravel-permission-controller",
     "description": "A Laravel package that observes model events and automatically enforces create, update, and delete permissions based on policies.",
     "keywords": [
         "laravel",
@@ -11,7 +11,7 @@
         "security",
         "eloquent"
     ],
-    "homepage": "https://github.com/curly-deni/laravel-permission-observer",
+    "homepage": "https://github.com/curly-deni/laravel-permission-controller",
     "license": "MIT",
     "authors": [
         {
@@ -32,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Aesis\\PermissionObserver\\": "src/"
+            "Aesis\\PermissionController\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Aesis\\PermissionObserver\\Tests\\": "tests/"
+            "Aesis\\PermissionController\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Aesis\\PermissionObserver\\PermissionObserverServiceProvider"
+                "Aesis\\PermissionController\\PermissionObserverServiceProvider"
             ]
         }
     },
