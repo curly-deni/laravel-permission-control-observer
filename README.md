@@ -4,77 +4,147 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/curly-deni/laravel-permission-controller/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/curly-deni/laravel-permission-controller/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/curly-deni/laravel-permission-controller.svg?style=flat-square)](https://packagist.org/packages/curly-deni/laravel-permission-controller)
 
-Permission Controller is a lightweight Laravel package that automatically enforces create, update, and delete permissions at the model level based on your policy methods. It simplifies permission checks and ensures better security across your application.
+**Permission Controller** is a lightweight Laravel package that automatically enforces `create`, `update`, `delete`, and optionally `read` permissions at the model level based on your policy methods. It streamlines permission handling and improves application security with minimal setup.
 
 ---
 
 ## Features
 
-- 🛡️ Automatic permission checks for `create`, `update`, and `delete` actions.
-- ⚡ Easy integration with Laravel policies.
-- ⚙️ Configurable behavior — optionally throw custom exceptions.
-- 🧩 Simple trait-based setup for your Eloquent models.
-- 📚 Clean and extendable architecture.
+- 🛡️ Automatic permission checks for `create`, `update`, `delete`, and optional `read` actions.
+- ⚡ Seamless integration with Laravel’s native authorization system (policies).
+- ⚙️ Highly configurable — control enabled actions and exception behavior per action.
+- 🧩 Simple trait-based integration for Eloquent models.
+- 📚 Clean, modular, and extendable architecture.
 
 ---
 
 ## Installation
 
-You can install the package via Composer:
+Install the package via Composer:
 
 ```bash
 composer require curly-deni/laravel-permission-controller
 ```
 
-You can publish the configuration file using:
+Publish the configuration file:
 
 ```bash
 php artisan vendor:publish --tag="permission-controller-config"
 ```
 
-This will publish the following configuration:
+---
+
+## Configuration
+
+The published configuration file `config/permission-controller.php` looks like this:
 
 ```php
 return [
-    'throw_exceptions' => false,
+    'read_scope' => \Aesis\PermissionController\Scopes\ReadScope::class,
+    'observer' => \Aesis\PermissionController\Observers\ActionObserver::class,
+
+    'create' => [
+        'enable' => true,
+        'exception' => \Aesis\PermissionController\Exceptions\CreateModelForbidden::class,
+        'throw_exception' => false,
+    ],
+
+    'update' => [
+        'enable' => true,
+        'exception' => \Aesis\PermissionController\Exceptions\UpdateModelForbidden::class,
+        'throw_exception' => false,
+    ],
+
+    'delete' => [
+        'enable' => true,
+        'exception' => \Aesis\PermissionController\Exceptions\DeleteModelForbidden::class,
+        'throw_exception' => false,
+    ],
+
+    'read' => [
+        'enable' => false,
+        'exception' => \Aesis\PermissionController\Exceptions\ReadModelForbidden::class,
+        'throw_exception' => false,
+    ],
 ];
 ```
 
-If `throw_exceptions` is set to `true`, the package will throw specific exceptions when permission is denied:
+**Configuration options:**
 
-| Action  | Exception Class |
-|---------|-----------------|
-| Create  | `Aesis\PermissionController\Exceptions\CreateModelForbidden` |
-| Update  | `Aesis\PermissionController\Exceptions\UpdateModelForbidden` |
-| Delete  | `Aesis\PermissionController\Exceptions\DeleteModelForbidden` |
+- `read_scope`: The scope class applied to model queries to restrict access based on `read` permissions.
+- `observer`: The observer class that enforces permission checks on model events (`creating`, `updating`, `deleting`).
+
+**Per-action settings (`create`, `update`, `delete`, `read`):**
+- `enable`: Enable or disable permission enforcement for the specific action.
+- `exception`: Exception class to throw when permission is denied (if `throw_exception` is `true`).
+- `throw_exception`: If `true`, the package will throw an exception; otherwise, the action will simply not proceed.
+
+If exceptions are enabled, these exception classes are used:
+
+| Action  | Exception Class                                               |
+|---------|---------------------------------------------------------------|
+| Create  | `Aesis\PermissionController\Exceptions\CreateModelForbidden`  |
+| Update  | `Aesis\PermissionController\Exceptions\UpdateModelForbidden`  |
+| Delete  | `Aesis\PermissionController\Exceptions\DeleteModelForbidden`  |
+| Read    | `Aesis\PermissionController\Exceptions\ReadModelForbidden`    |
+
+> **Tip:** You can override the exception classes to provide custom messages, error codes, or even logging.
 
 ---
 
 ## Usage
 
-1. Add the `Aesis\PermissionController\Traits\HasPermissionObserver` trait to any Eloquent models you want to protect:
+### 1. Add the Trait to Your Models
+
+Include the `HasPermissionController` trait in any Eloquent model you want to protect:
 
 ```php
-use Aesis\PermissionController\Traits\HasPermissionObserver;
+use Aesis\PermissionController\Traits\HasPermissionController;
 
 class Post extends Model
 {
-    use HasPermissionObserver;
+    use HasPermissionController;
 }
 ```
 
-2. Define appropriate `create`, `update`, and `delete` methods in your model's corresponding Policy class.
+### 2. Define Policy Methods
 
-Example:
+You must implement policy methods **only for the actions that are enabled** in the configuration:
+
+- If `'create'` is enabled, implement a `create(User $user)` method.
+- If `'update'` is enabled, implement an `update(User $user, Model $model)` method.
+- If `'delete'` is enabled, implement a `delete(User $user, Model $model)` method.
+- If `'read'` is enabled, implement a `read(User $user)` method (**without** passing the model instance).
+
+Example for a `PostPolicy`:
 
 ```php
-public function update(User $user, Post $post)
+class PostPolicy
 {
-    return $user->id === $post->user_id;
+    public function create(User $user)
+    {
+        return $user->hasPermission('create-posts');
+    }
+
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id;
+    }
+
+    public function delete(User $user, Post $post)
+    {
+        return $user->id === $post->user_id;
+    }
+
+    public function read(User $user)
+    {
+        return $user->hasPermission('read-posts');
+    }
 }
 ```
 
-That's it! Permission Controller will automatically enforce these rules on model actions.
+> **Important:**  
+> The `read` method only accepts the `User` object — **no model instance** is passed.
 
 ---
 
