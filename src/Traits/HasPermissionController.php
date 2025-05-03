@@ -18,22 +18,25 @@ trait HasPermissionController
 
         if (config('permission-controller.create.enable', false)) {
             static::creating(function ($model) {
-                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create'))
+                if (! checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create')) {
                     return false;
+                }
             });
         }
 
         if (config('permission-controller.update.enable', false)) {
             static::updating(function ($model) {
-                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update'))
+                if (! checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update')) {
                     return false;
+                }
             });
         }
 
         if (config('permission-controller.delete.enable', false)) {
             static::deleting(function ($model) {
-                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete'))
+                if (! checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete')) {
                     return false;
+                }
             });
         }
 
