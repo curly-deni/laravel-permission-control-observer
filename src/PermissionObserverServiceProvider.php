@@ -15,7 +15,7 @@ class PermissionObserverServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('permission-controller')
+            ->name('laravel-permission-controller')
             ->hasConfigFile();
     }
 }

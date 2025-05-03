@@ -13,7 +13,7 @@ class ReadScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $status = checkModelActionPermission($model, 'read');
+        $status = checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'read');
 
         if (! $status) {
             $builder->whereRaw('1 = 0');

@@ -9,7 +9,7 @@ class ActionObserver
      */
     public function creating($model): bool
     {
-        return checkModelActionPermission($model, 'create');
+        return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create');
     }
 
     /**
@@ -17,7 +17,7 @@ class ActionObserver
      */
     public function updating($model): bool
     {
-        return checkModelActionPermission($model, 'update');
+        return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update');
     }
 
     /**
@@ -25,6 +25,6 @@ class ActionObserver
      */
     public function deleting($model): bool
     {
-        return checkModelActionPermission($model, 'delete');
+        return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete');
     }
 }

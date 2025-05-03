@@ -11,8 +11,8 @@ if (! function_exists('canUserDoActionOnModel')) {
     }
 }
 
-if (! function_exists('checkModelActionPermission')) {
-    function checkModelActionPermission($model, $action)
+if (! function_exists('checkModelActionAndOptionallyCallExceptionIfNotAllowed')) {
+    function checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, $action)
     {
         if (! config('permission-controller.'.$action.'enable', false)) {
             return true;
