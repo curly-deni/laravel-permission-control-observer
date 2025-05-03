@@ -2,7 +2,6 @@
 
 return [
     'read_scope' => \Aesis\PermissionController\Scopes\ReadScope::class,
-    'observer' => \Aesis\PermissionController\Observers\ActionObserver::class,
 
     'create' => [
         'enable' => true,

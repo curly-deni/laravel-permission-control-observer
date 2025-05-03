@@ -17,16 +17,27 @@ trait HasPermissionController
             return;
         }
 
-        if (
-            config('permission-controller.create.enable', false) ||
-            config('permission-controller.update.enable', false) ||
-            config('permission-controller.delete.enable', false)
-        ) {
-            static::observe(config('permission-controller.observer', ActionObserver::class));
+        if (config('permission-controller.create.enable', false)) {
+            static::creating(function ($model) {
+                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create');
+            });
+        }
+
+        if (config('permission-controller.update.enable', false)) {
+            static::updating(function ($model) {
+                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update');
+            });
+        }
+
+        if (config('permission-controller.delete.enable', false)) {
+            static::deleting(function ($model) {
+                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete');
+            });
         }
 
         if (config('permission-controller.read.enable', false)) {
             static::addGlobalScope(new (config('permission-controller.read_scope', ReadScope::class)));
         }
     }
+
 }
