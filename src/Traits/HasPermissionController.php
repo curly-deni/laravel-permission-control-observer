@@ -2,7 +2,6 @@
 
 namespace Aesis\PermissionController\Traits;
 
-use Aesis\PermissionController\Observers\ActionObserver;
 use Aesis\PermissionController\Scopes\ReadScope;
 
 trait HasPermissionController
@@ -39,5 +38,4 @@ trait HasPermissionController
             static::addGlobalScope(new (config('permission-controller.read_scope', ReadScope::class)));
         }
     }
-
 }
