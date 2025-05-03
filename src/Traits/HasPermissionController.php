@@ -19,19 +19,22 @@ trait HasPermissionController
 
         if (config('permission-controller.create.enable', false)) {
             static::creating(function ($model) {
-                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create');
+                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'create'))
+                    return false;
             });
         }
 
         if (config('permission-controller.update.enable', false)) {
             static::updating(function ($model) {
-                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update');
+                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'update'))
+                    return false;
             });
         }
 
         if (config('permission-controller.delete.enable', false)) {
             static::deleting(function ($model) {
-                return checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete');
+                if (!checkModelActionAndOptionallyCallExceptionIfNotAllowed($model, 'delete'))
+                    return false;
             });
         }
 
